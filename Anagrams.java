@@ -68,6 +68,29 @@ public class Anagrams{
             // Sort signatures for consistent output
             List<String> signatures = new ArrayList<>(anagramMap.keySet());
             Collections.sort(signatures);
+            for (String signature : signatures){
+                List<String> words = anagramMap.get(signature);
+
+                // Only print if there's at least 2 words (actual anagrams)
+                if (words.size() > 1){
+                    Collections.sort(words); // Sort words alphabetically
+
+                    // Print to console
+                    System.out.println(signature + ": " + words);
+
+                    // Write to LaTeX file
+                    writer.println("\\item[" + signature + "] " +
+                            String.join(", ", words));
+                }
+            }
+            // LaTeX footer
+            writer.println("\\end{description}");
+            writer.println("\\end{document}");
+            writer.close();
+
+            System.out.println("Output written to theAnagrams.tex");
+        } catch(IOException e){
+            System.err.println("Error writing output: " + e.getMessage());
         }
     }
 }
